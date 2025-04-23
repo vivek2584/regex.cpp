@@ -7,11 +7,11 @@ int main(int argc, char** argv){
         return 1;
     }
     std::string regex = argv[1];
-    //std::string match_in = argv[2];
 
-    std::string postfix_expr = toPostfix(regex);
+    std::string postfix_expr = regex_to_postfix(regex);
 
     std::cout << postfix_expr << "\n";
 
+    
     return 0;
 }

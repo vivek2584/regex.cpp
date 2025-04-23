@@ -1,7 +1,7 @@
 #include "regex.hpp"
 
-std::string toPostfix(const std::string& regex){
-    std::unordered_map<char, int> op_precedence =   
+std::string regex_to_postfix(const std::string& regex){
+    std::unordered_map<char, int> operator_precedence =   
     {
         {'*', 3},
         {'+', 3},
@@ -37,14 +37,14 @@ std::string toPostfix(const std::string& regex){
             operator_stack.push(c);
         }
         else if(c == ')'){
-            while(operator_stack.top() != '('){
+            while(!operator_stack.empty() && operator_stack.top() != '('){
                 postfix_notation += operator_stack.top();
                 operator_stack.pop();
             }
             operator_stack.pop();
         }
         else{
-            while(!operator_stack.empty() && op_precedence[c] <= op_precedence[operator_stack.top()]){
+            while(!operator_stack.empty() && operator_precedence[c] <= operator_precedence[operator_stack.top()]){
                 postfix_notation += operator_stack.top();
                 operator_stack.pop();
             }
@@ -56,4 +56,13 @@ std::string toPostfix(const std::string& regex){
         operator_stack.pop();
     }
     return postfix_notation;
+}
+
+State* postfix_to_nfa(const std::string& postfix_expr){
+    std::stack<Fragment> fragment_stack;
+    for(const char& c : postfix_expr){
+        switch(c){
+            
+        }
+    }
 }
