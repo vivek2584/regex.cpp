@@ -13,6 +13,8 @@ struct State{
         char transition_character;
         State* out1;
         State* out2;
+
+        State(char transition_character) : transition_character(transition_character), out1(nullptr), out2(nullptr){};
 };
 
 struct Ptrlist{
@@ -21,6 +23,7 @@ struct Ptrlist{
         Ptrlist* next;
 
     //public:
+        Ptrlist() : outptr(nullptr), next(nullptr){};
         Ptrlist* make_ptrlist(State** outptr);
         Ptrlist* append(Ptrlist* l1, Ptrlist* l2);
 };
@@ -29,6 +32,8 @@ struct Fragment{
     //public:
         State* start_state;
         Ptrlist* out_list;
+
+        Fragment() : start_state(nullptr), out_list(nullptr){};
 };
 
 void patch(Ptrlist* list, State* s);
