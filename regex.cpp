@@ -150,3 +150,43 @@ void patch(Ptrlist* list, State* s){
         list = list -> next;
     }
 }
+
+bool match(State* start, const std::string& input, std::vector<State*>& clist, std::vector<State*>& nlist){
+    clist.push_back(start);
+    for(const char& c: input){
+        step(clist, nlist, c);
+        std::vector<State*> temp = std::move(clist);
+        clist = std::move(nlist);
+        nlist = std::move(temp);
+    }
+    return isMatch(clist);
+}
+
+bool isMatch(std::vector<State*>& clist){
+    for(auto& state : clist){
+        if(state -> state_name == MATCH) return true;
+    }
+    return false;
+}
+
+void add_state(std::vector<State*>& list, State* s){
+    if(!s) return;
+
+    if(s -> state_name == SPLIT){
+        add_state(list, s -> out1);
+        add_state(list, s -> out2);
+    } 
+    else{
+        list.push_back(s);
+    }
+}
+
+void step(std::vector<State*>& clist, std::vector<State*>& nlist, char c){
+    nlist.clear();
+    State* s;
+    for(auto& state : clist){
+        if(state -> transition_character == c){
+            add_state(nlist, state -> out1);
+        }
+    }
+}

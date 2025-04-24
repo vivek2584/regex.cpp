@@ -12,6 +12,8 @@ int main(int argc, char** argv){
 
     std::cout << postfix_expr << "\n";
 
-    
+    std::vector<State*> clist;
+    std::vector<State*> nlist;
+
     return 0;
 }

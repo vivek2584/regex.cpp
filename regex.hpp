@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include <stack>
 
@@ -53,5 +54,13 @@ struct Fragment{
 void patch(Ptrlist* list, State* s);
 
 State* postfix_to_nfa(std::string& postfix_expr);
+
+bool match(State* start, const std::string& input, std::vector<State*>& clist, std::vector<State*>& nlist);
+
+bool isMatch(std::vector<State*>& clist);
+
+void add_state(std::vector<State*>& list, State* s);
+
+void step(std::vector<State*>& clist, std::vector<State*>& nlist, char c);
 
 #endif
