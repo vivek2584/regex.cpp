@@ -26,4 +26,4 @@ regex "<regular expression>" "<input string>"
 how to build:-
 
 ```bash
-g++ -std==c++17 main.cpp regex.cpp -o regex
+g++ -std=c++17 main.cpp regex.cpp -o regex
