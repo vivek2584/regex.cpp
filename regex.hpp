@@ -6,6 +6,9 @@
 #include <vector>
 #include <unordered_map>
 #include <stack>
+#include <unordered_set>
+
+extern int listid;
 
 enum state_type{
     NORMAL,
@@ -21,6 +24,7 @@ struct State{
         state_type state_name;
         State* out1;
         State* out2;
+        int lastlist{0};
 
         State()                                                    : transition_character('\0'), state_name(NORMAL), 
                                                                      out1(nullptr), out2(nullptr){};
@@ -53,14 +57,18 @@ struct Fragment{
 
 void patch(Ptrlist* list, State* s);
 
-State* postfix_to_nfa(std::string& postfix_expr);
+State* postfix_to_nfa(const std::string& postfix_expr);
 
 bool match(State* start, const std::string& input, std::vector<State*>& clist, std::vector<State*>& nlist);
 
 bool isMatch(std::vector<State*>& clist);
 
+std::vector<State*> start_list(State* s, std::vector<State*>& list);
+
 void add_state(std::vector<State*>& list, State* s);
 
 void step(std::vector<State*>& clist, std::vector<State*>& nlist, char c);
+
+void print_nfa(State* s, std::unordered_set<State*>& visited);
 
 #endif
