@@ -20,7 +20,7 @@ The goal of this implementation is to provide a **faster** and **more efficient*
 ## Syntax:- (will add reading from a file feature later)
 
 ```bash
-regex "<regular expression>" "<input string>"
+./regex "<regular expression>" "<input string>"
 ```
 
 how to build:-
