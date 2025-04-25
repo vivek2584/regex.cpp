@@ -4,21 +4,12 @@ int main(int argc, char** argv){
     
     while(true){
 
-<<<<<<< HEAD
-    if (argc < 3){
-        std::cout << "Usage: <./appname> <regexpression> <input_string>\n";
-        return 1;
-    }
-    std::string regex = argv[1];
-    std::string input_string = argv[2];
-=======
         std::string input{""};
         std::cout << "regex > ";
         std::getline(std::cin, input);
         std::istringstream iss(input);
         std::vector<std::string> words;
         std::string word;
->>>>>>> b480fc1 (added REPL based input)
 
         while(iss >> word){
             words.push_back(word);
@@ -57,9 +48,4 @@ int main(int argc, char** argv){
     }
 
     return 0;
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> b480fc1 (added REPL based input)
