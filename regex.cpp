@@ -62,7 +62,7 @@ std::string regex_to_postfix(const std::string& regex){
 
 State* postfix_to_nfa(const std::string& postfix_expr){
     std::stack<Fragment*> fragment_stack;
-    Fragment *frag, *frag1, *frag2;
+    Fragment *new_frag, *frag, *frag1, *frag2;
     State* new_state;
     Ptrlist* new_list;
     for(const char& c : postfix_expr){
@@ -74,8 +74,10 @@ State* postfix_to_nfa(const std::string& postfix_expr){
                 frag1 = fragment_stack.top();
                 fragment_stack.pop();
                 patch(frag1 -> out_list, frag2 -> start_state);
-                frag = new Fragment(frag1 -> start_state, frag2 -> out_list);
-                fragment_stack.push(frag);
+                new_frag = new Fragment(frag1 -> start_state, frag2 -> out_list);
+                fragment_stack.push(new_frag);
+                delete frag1;
+                delete frag2;
                 break;
 
             case '|':                                             // ALTERNATION
@@ -85,8 +87,10 @@ State* postfix_to_nfa(const std::string& postfix_expr){
                 fragment_stack.pop();
                 new_state = new State(SPLIT, frag1 -> start_state, frag2 -> start_state);
                 new_list = append(frag1 -> out_list, frag2 -> out_list);
-                frag = new Fragment(new_state, new_list);
-                fragment_stack.push(frag);
+                new_frag = new Fragment(new_state, new_list);
+                fragment_stack.push(new_frag);
+                delete frag1;
+                delete frag2;
                 break;
 
             case '?':                                             //EXISTENCE
@@ -94,8 +98,9 @@ State* postfix_to_nfa(const std::string& postfix_expr){
                 fragment_stack.pop();
                 new_state = new State(SPLIT, frag -> start_state, nullptr);
                 new_list = append(frag -> out_list, make_ptrlist(&(new_state -> out2)));
-                frag = new Fragment(new_state, new_list);
-                fragment_stack.push(frag);
+                new_frag = new Fragment(new_state, new_list);
+                fragment_stack.push(new_frag);
+                delete frag;
                 break;
 
             case '*':                                             // KLENEE STAR
@@ -103,8 +108,9 @@ State* postfix_to_nfa(const std::string& postfix_expr){
                 fragment_stack.pop();
                 new_state = new State(SPLIT, frag -> start_state, nullptr);
                 patch(frag -> out_list, new_state);
-                frag = new Fragment(new_state, make_ptrlist(&(new_state -> out2)));
-                fragment_stack.push(frag);
+                new_frag = new Fragment(new_state, make_ptrlist(&(new_state -> out2)));
+                fragment_stack.push(new_frag);
+                delete frag;
                 break;
 
             case '+':                                             //ONE OR MORE EXISTENCE
@@ -112,14 +118,15 @@ State* postfix_to_nfa(const std::string& postfix_expr){
                 fragment_stack.pop();
                 new_state = new State(SPLIT, frag -> start_state, nullptr);
                 patch(frag -> out_list, new_state);
-                frag = new Fragment(frag -> start_state, make_ptrlist(&(new_state -> out2)));
-                fragment_stack.push(frag);
+                new_frag = new Fragment(frag -> start_state, make_ptrlist(&(new_state -> out2)));
+                fragment_stack.push(new_frag);
+                delete frag;
                 break;
 
             default:
                 new_state = new State(c, nullptr, nullptr);
-                frag = new Fragment(new_state, make_ptrlist(&(new_state -> out1)));
-                fragment_stack.push(frag);
+                new_frag = new Fragment(new_state, make_ptrlist(&(new_state -> out1)));
+                fragment_stack.push(new_frag);
                 break;
         }
     }
@@ -129,6 +136,7 @@ State* postfix_to_nfa(const std::string& postfix_expr){
     State* matchstate = new State(MATCH, nullptr, nullptr);
     patch(frag -> out_list, matchstate);
     State* start = frag -> start_state;
+    delete frag;
     return start;  
 }
 
