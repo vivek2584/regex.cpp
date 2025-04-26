@@ -46,7 +46,8 @@ int main(int argc, char** argv){
             std::cout << "Input String not matched\n";
         }
 
-        delete_state_objects(nfa_start);
+        std::unordered_set<State*> visited_states;
+        delete_state_objects(nfa_start, visited_states);
     }
 
     return 0;

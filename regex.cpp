@@ -97,7 +97,7 @@ State* postfix_to_nfa(const std::string& postfix_expr){
             case '?':                                             //EXISTENCE
                 frag = fragment_stack.top();
                 fragment_stack.pop();
-                new_state = new State(SPLIT, frag -> start_state, nullptr);               
+                new_state = new State(SPLIT, frag -> start_state, nullptr);              
                 new_list = append(frag -> out_list, make_ptrlist(&(new_state -> out2)));
                 new_frag = new Fragment(new_state, new_list);
                 fragment_stack.push(new_frag);
@@ -225,11 +225,13 @@ void delete_ptrlist(Ptrlist* list){
     }
 }
 
-void delete_state_objects(State* nfa_start){
-    if(nfa_start == nullptr) return;
+void delete_state_objects(State* nfa_start, std::unordered_set<State*>& visited_states){
+    if(nfa_start == nullptr || visited_states.count(nfa_start)) return;
 
-    delete_state_objects(nfa_start -> out1);
-    delete_state_objects(nfa_start -> out2);
+    visited_states.insert(nfa_start);
+
+    delete_state_objects(nfa_start -> out1, visited_states);
+    delete_state_objects(nfa_start -> out2, visited_states);
 
     delete nfa_start;
 }

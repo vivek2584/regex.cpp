@@ -80,7 +80,7 @@ void step(std::vector<State*>& clist, std::vector<State*>& nlist, char c);
 
 void delete_ptrlist(Ptrlist* list);
 
-void delete_state_objects(State* nfa_start);
+void delete_state_objects(State* nfa_start, std::unordered_set<State*>& visited_states);
 
 void print_nfa(State* s, std::unordered_set<State*>& visited);
 
