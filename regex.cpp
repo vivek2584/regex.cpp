@@ -136,8 +136,9 @@ State* postfix_to_nfa(const std::string& postfix_expr){
     State* matchstate = new State(MATCH, nullptr, nullptr);
     patch(frag -> out_list, matchstate);
     State* start = frag -> start_state;
+    delete_ptrlist(frag -> out_list);
     delete frag;
-    return start;  
+    return start;
 }
 
 Ptrlist* make_ptrlist(State** outptr){
@@ -213,7 +214,15 @@ void step(std::vector<State*>& clist, std::vector<State*>& nlist, char c){
     }
 }
 
-void print_nfa(State* s, std::unordered_set<State*>& visited) {
+void delete_ptrlist(Ptrlist* list){
+    while (list != nullptr) {
+        Ptrlist* next = list->next;
+        delete list;
+        list = next;
+    }
+}
+
+void print_nfa(State* s, std::unordered_set<State*>& visited){
     if (!s || visited.count(s)) return;
     visited.insert(s);
     

@@ -54,6 +54,14 @@ struct Fragment{
 
         Fragment() : start_state(nullptr), out_list(nullptr){};
         Fragment(State* start_state, Ptrlist* out_list) : start_state(start_state), out_list(out_list){};
+
+        /* ~Fragment(){
+            while(out_list != nullptr){
+                Ptrlist* to_delete = out_list;
+                out_list = out_list -> next;
+                delete to_delete;
+            }
+        } */
 };
 
 void patch(Ptrlist* list, State* s);
@@ -69,6 +77,8 @@ std::vector<State*> start_list(State* s, std::vector<State*>& list);
 void add_state(std::vector<State*>& list, State* s);
 
 void step(std::vector<State*>& clist, std::vector<State*>& nlist, char c);
+
+void delete_ptrlist(Ptrlist* list);
 
 void print_nfa(State* s, std::unordered_set<State*>& visited);
 
