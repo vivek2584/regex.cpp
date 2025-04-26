@@ -225,6 +225,15 @@ void delete_ptrlist(Ptrlist* list){
     }
 }
 
+void delete_state_objects(State* nfa_start){
+    if(nfa_start == nullptr) return;
+
+    delete_state_objects(nfa_start -> out1);
+    delete_state_objects(nfa_start -> out2);
+
+    delete nfa_start;
+}
+
 void print_nfa(State* s, std::unordered_set<State*>& visited){
     if (!s || visited.count(s)) return;
     visited.insert(s);

@@ -34,8 +34,8 @@ int main(int argc, char** argv){
         std::vector<State*> l1;
         std::vector<State*> l2;
 
-        //std::unordered_set<State*> visited;
-        //print_nfa(nfa_start, visited);
+        std::unordered_set<State*> visited;
+        print_nfa(nfa_start, visited);
 
         bool matched = match(nfa_start, input_string, l1, l2);
 
@@ -45,6 +45,8 @@ int main(int argc, char** argv){
         else{
             std::cout << "Input String not matched\n";
         }
+
+        delete_state_objects(nfa_start);
     }
 
     return 0;
