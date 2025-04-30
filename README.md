@@ -1,4 +1,4 @@
-# Regex Engine from Scratch
+# Regex Engine
 
 A simple **Regex Engine** built from scratch using the **McNaughton–Yamada–Thompson** algorithm. This engine converts regular expressions to an equivalent **Non-deterministic Finite Automaton (NFA)** to match regex patterns against input strings.
 
